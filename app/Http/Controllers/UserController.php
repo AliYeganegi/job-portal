@@ -25,13 +25,7 @@ class UserController extends Controller
 
     public function storeSeeker(RegisterationFormRequest $request)
     {
-        //doing validation in it's request
-
-        // $validatedData = $request->validate([
-        //     'name' => 'required',
-        //     'email' => 'required|email',
-        //     'password' => 'required'
-        // ]);
+        //doing validation in RegisterationFormRequest request
 
         User::create([
             'name' => $request['name'],
@@ -40,7 +34,7 @@ class UserController extends Controller
             'user_type' => self::JOB_SEEKER,    
         ]);
 
-        return back();
+        return back()->with('successMessage', 'Your account was successfully created :)');
     }
 
     public function storeEmployer(RegisterationFormRequest $request)
@@ -52,7 +46,7 @@ class UserController extends Controller
             'user_type' => self::JOB_POSTER,    
         ]);
 
-        return redirect()->route('login');
+        return redirect()->route('login')->with('successMessage', 'Your account was successfully created :)');
     }
 
     public function delete(User $user)
