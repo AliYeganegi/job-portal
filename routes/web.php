@@ -5,6 +5,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +25,23 @@ Route::get('/', function () {
 // Route::get('/contacts', [ContactController::class, 'index']);
 // Route::get('/contacts/store', [ContactController::class, 'store']);
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('verified')->name('dashboard');
+Route::get('/verify', [DashboardController::class, 'verify'])->name('verification.notice');
+
+//email verifiction routes
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+ 
+    return redirect('/dashboard');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+ 
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::get('/register/seeker', [UserController::class, 'createSeeker'])->name('create.seeker');
 Route::post('/register/seeker', [UserController::class, 'storeSeeker'])->name('store.seeker');
