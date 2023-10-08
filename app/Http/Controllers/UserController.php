@@ -35,9 +35,11 @@ class UserController extends Controller
             'user_type' => self::JOB_SEEKER,    
         ]);
 
+        Auth::login($user);
+
         event(new Registered($user));
 
-        return back()->with('successMessage', 'Your account was successfully created :)');
+        return redirect()->route('verification.notice')->with('successMessage', 'Your account was successfully created :)');
     }
 
     public function storeEmployer(RegisterationFormRequest $request)
@@ -50,9 +52,11 @@ class UserController extends Controller
             'user_trial' => now()->addWeek(),  
         ]);
 
+        Auth::login($user);
+
         event(new Registered($user));
 
-        return redirect()->route('login')->with('successMessage', 'Your account was successfully created :)');
+        return redirect()->route('verification.notice')->with('successMessage', 'Your account was successfully created :)');
     }
 
     public function delete(User $user)
