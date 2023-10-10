@@ -51,3 +51,5 @@ Route::post('/register/employer', [UserController::class, 'storeEmployer'])->nam
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'postLogin'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/ioc', [UserController::class, 'test']);

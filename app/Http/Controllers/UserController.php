@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\RegisterationFormRequest;
+use App\services\testService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Auth\Events\Registered;
@@ -39,7 +40,8 @@ class UserController extends Controller
 
         event(new Registered($user));
 
-        return redirect()->route('verification.notice')->with('successMessage', 'Your account was successfully created :)');
+        return response()->json('success');
+        // return redirect()->route('verification.notice')->with('successMessage', 'Your account was successfully created :)');
     }
 
     public function storeEmployer(RegisterationFormRequest $request)
@@ -56,11 +58,17 @@ class UserController extends Controller
 
         event(new Registered($user));
 
-        return redirect()->route('verification.notice')->with('successMessage', 'Your account was successfully created :)');
+        return response()->json('success');
+        // return redirect()->route('verification.notice')->with('successMessage', 'Your account was successfully created :)');
     }
 
     public function delete(User $user)
     {
         $user->delete();
+    }
+
+    public function test(testService $service)
+    {
+        dd(app());
     }
 }

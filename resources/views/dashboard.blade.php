@@ -5,10 +5,10 @@
         <div class="row justify-content-center">
             <h4 class="mt-3">hello {{ auth()->user()->name }}</h4>
             @if (Auth::check() && auth()->user()->user_type == 'employer')
-            <h7 class="mb-5">your trial will expire on {{ auth()->user()->user_trial }}</h7>
+            <h6 class="mb-5">your trial {{now()->format('y-m-d') > auth()->user()->user_trial ? 'was expired': 'will expire'}} on {{ auth()->user()->user_trial }}</h6>
             @endif
             <div class="col-md-3">
-                <div class="card-counter primary">
+                <div class="card-counter primary">  
                     <p class="text-center mt-3 lead">
                         User profile
                     </p>
